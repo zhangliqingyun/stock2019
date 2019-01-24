@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>  
+<title>测试页面</title>
+</head>
+<body>
+  <table>
+    <tr>
+        <th>编号</th>
+        <th>姓名</th>     
+        <th>密码</th>
+    </tr>
+    <!-- 对集合变量userList进行遍历-->
+    <tr th:each="user : ${userList}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.password}"></td>
+    </tr>
+</table>
+</body>
+</html>
