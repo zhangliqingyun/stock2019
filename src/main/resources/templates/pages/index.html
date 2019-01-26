@@ -1,22 +1,217 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8"/>  
-<title>测试页面</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="renderer" content="webkit" />
+    <title>股票分析系统</title>      
+    <link rel="shortcut icon" th:href="@{/common/images/headlogo.ico}"/>            
+    <link th:href="@{/hplus/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet" />
+    <link th:href="@{/hplus/css/plugins/layui/css/layui.css?v=4.1.0}" rel="stylesheet" />
+    <link th:href="@{/hplus/css/font-awesome.min.css?v=4.4.0}" rel="stylesheet" />
+    <link th:href="@{/hplus/css/animate.css}" rel="stylesheet" />
+    <link th:href="@{/hplus/css/style.css?v=4.1.0}" rel="stylesheet" />
+    <style type="text/css">
+    .skin-1 .nav > li > a:hover{
+   	 background-color:#0e9aef;
+   	 color: #fff;
+    }
+    .skin-1 .nav > li.active > a:hover{
+    	background-color:#0e9aef;
+    	
+    }
+    .skin-1 .nav > li.active{
+    	background:#3a4459;
+    }
+    </style>      
 </head>
-<body>
-  <table>
-    <tr>
-        <th>编号</th>
-        <th>姓名</th>     
-        <th>密码</th>
-    </tr>
-    <!-- 对集合变量userList进行遍历-->
-    <tr th:each="user : ${userList}">
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.name}"></td>
-        <td th:text="${user.password}"></td>
-    </tr>
-</table>
+
+<body class="fixed-sidebar full-height-layout gray-bg pace-done skin-1" style="overflow:hidden">
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation" >
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">   
+                	<li class="nav-header">
+                        <div class="dropdown profile-element" style="text-align: center;">
+                            <span><img alt="image" class="img-circle" width="64" height="64"  th:src="@{/downloadforlayui}" /></span>   
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="block m-t-xs" style="margin-top: 10px;"><strong class="font-bold"><span class="hidden-xs" ></span></strong><b class="caret"></b></span>
+                                </span>
+                            </a>
+                           <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li>
+                                    <a class="J_menuItem" th:href="@{/personal}">个人中心</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/updatePassword}">修改密码</a>
+                                </li>    
+                                <li class="divider"></li>
+                                <li>
+                                    <a onclick="logout()" >安全退出</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="logo-element"></div>
+                    </li>
+                    <!-- 一级菜单 -->
+                    <li >
+                        <a href="javascript:void(0);" style="color: #fff;">
+                        	<span class="nav-label">一级菜单</span><span class="fa arrow"></span>
+                        </a>
+                        <!-- 二级菜单 -->   
+                        <ul class="nav nav-second-level">   
+                            <li>
+                               	<a class="J_menuItem">
+                               		<span class="nav-label">第一个菜单</span>
+                               	</a>
+                               	<a class="J_menuItem" >
+                               		<span class="nav-label" >第二个菜单</span><span class="fa arrow"></span>
+                                </a>
+                                <!-- 三级菜单 -->	
+                                <ul  class="nav nav-third-level">
+                                    <li>
+                                       <span >第三个菜单</span>  
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                 <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-fw fa-outdent"></i> </a></div>
+                    <ul class="nav navbar-top-links navbar-right"  id="rightMenu">
+                        <li class="dropdown" >
+                            <a th:href="@{/index}">           
+                            	<span class="nav-label">数据管理</span>  
+                            </a>
+                        </li>
+                        <li class="dropdown" >
+                            <a th:href="@{/index}">           
+                            	<span class="nav-label">报表分析</span>     
+                            </a>
+                        </li>
+                        <li class="dropdown" >
+                            <a th:href="@{/index}">
+                            	<span class="nav-label">应用支撑</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+           <div class="row content-tabs">
+                <button class="roll-nav roll-left J_tabLeft">
+                    <i class="fa fa-backward"></i>
+                </button>
+                <nav class="page-tabs J_menuTabs">
+                    <div class="page-tabs-content">
+                        <a href="javascript:;" class="active J_menuTab" data-id="pageHome">首页</a>
+                    </div>
+                </nav>
+                <button class="roll-nav roll-right J_tabRight">
+                    <i class="fa fa-forward"></i>
+                </button>
+                <div class="btn-group roll-nav roll-right">
+                    <button class="dropdown J_tabClose" data-toggle="dropdown">
+                                                                        关闭操作<span class="caret"></span>
+                    </button>    
+                    <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                        <li class="J_tabShowActive">
+                           <a>定位当前选项卡</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="J_tabCloseAll">
+                           <a>关闭全部选项卡</a>
+                        </li>
+                        <li class="J_tabCloseOther">
+                           <a>关闭其他选项卡</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row J_mainContent" id="content-main">
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" th:src="@{/pageHome}" frameborder="0" data-id="pageHome" seamless=""></iframe>
+            </div>
+            <div class="footer">
+                <div class="pull-right" id="footer"></div>
+            </div>
+        </div>
+        <!--右侧部分结束-->
+    </div>
+
+    <!-- 全局js -->
+    <script th:src="@{/hplus/js/jquery.min.js?v=2.1.4}"></script>
+    <script th:src="@{/hplus/js/bootstrap.min.js?v=3.3.6}"></script>
+    <script th:src="@{/hplus/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+    <script th:src="@{/hplus/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+    <script th:src="@{/hplus/css/plugins/layui/layui.js}"></script>
+    <!-- 自定义js -->
+    <script th:src="@{/hplus/js/hplus.js?v=4.1.0}"></script>
+    <script type="text/javascript" th:src="@{/hplus/js/contabs.js}"></script>
+    <!-- 第三方插件 -->
+    <script th:src="@{/hplus/js/plugins/pace/pace.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+   var basePath = /*[[@{/}]]*/         
+   var cotextRoot = /*[[@{/}]]*/   
+   var layer=null;
+   var date=new Date;   
+   var yearNow=date.getFullYear();      
+   document.getElementById("footer").innerHTML ="&copy; 2007-"+yearNow+" <a href='https://www.roadmaint.com' target='_blank'>中公高科养护科技股份有限公司</a>";        
+   layui.use('layer', function(){ //独立版的layer无需执行这一句
+   	  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+   });	
+  /* $("#rightMenu").find("li").each(function(){
+		var sysId = $(this).find("a").eq(0).attr("href");
+		var id = $("#menuName").text();
+		if(id==""){
+			$("#rightMenu").find("li").eq(0).addClass('active').siblings().removeClass('active');
+			return false;
+		}
+		if(sysId.indexOf(id)>=0 && id!=""){
+			$(this).addClass('active').siblings().removeClass('active');
+		}
+	});  
+   //加载整个页面
+    function loadPage(aid,serverId,link){
+        if(link && null != link && ""!= link){
+        	//$('body').attr("class","compact");
+            // mini.layout();
+        	if(null == serverId || '' ==serverId || 'null' == serverId){
+      	 		$("#contextframe").attr("src",cotextRoot+'/'+link);
+        	}else{
+        		$("#contextframe").attr("src",serverId+'/'+link);
+            }
+        }else{
+			//alert("in");
+        	//$('body').attr("class","");
+        	$("#contextframe").attr("src",basePath+"index?sysId="+aid);
+        }
+   		
+    }*/   
+   function logout(){
+		layer.confirm('确定退出系统？', {
+			  title:"温馨提醒",
+			  btn: ['退出','取消'],    //按钮
+			  skin: 'layui-layer-lan',
+			  closeBtn: 0
+			}, function(){
+			  location.href=basePath+"login";      
+			});
+	}
+    /*]]>*/
+</script>
+
 </body>
+
 </html>

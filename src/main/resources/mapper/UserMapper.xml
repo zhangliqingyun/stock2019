@@ -5,4 +5,13 @@
     <select id="findUserList" resultType="com.stock.entity.User">
         select * from stock.user   
     </select> 
+    
+    <select id="getUserListByName"  parameterType="java.lang.String"  resultType="com.stock.entity.User">
+        select * from stock.user   
+        <if test="userName!=null">
+          where name = #{userName}
+        </if>
+    </select> 
+    
+    
 </mapper>

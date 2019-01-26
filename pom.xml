@@ -92,5 +92,12 @@
          <version>1.2.14</version>
      </dependency>
      
+     <!-- 引入此包是为了使用thymeleaf模板的spring.thymeleaf.mode=LEGACYHTML5，这样可以解决某个标签不以/结尾不报错,列<meta charset="UTF-8"> -->
+     <dependency>
+		<groupId>net.sourceforge.nekohtml</groupId>
+		<artifactId>nekohtml</artifactId>
+		<version>1.9.22</version>
+ 	 </dependency>
+     
   </dependencies>
 </project>
